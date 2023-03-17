@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   app:
@@ -6,21 +6,23 @@ services:
       context: .
     volumes:
       - ./app:/app
-      - /static_data:/vol/web
+      - static_data:/vol/web
     environment:
       - DB_HOST=db
       - DB_NAME=app
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
       - ALLOWED_HOSTS=127.0.0.1
+      - DEBUG=1
     depends_on:
       - db
+
   proxy:
     image: proxy:latest
     depends_on:
       - app
     ports:
-    - "8000:8000"
+      - 8000:8000
     volumes:
       - static_data:/vol/static
 
