@@ -1,0 +1,6 @@
+docker-compose.yaml
+README.md
+.git/ 
+.gitignore
+vol/
+deploy/
