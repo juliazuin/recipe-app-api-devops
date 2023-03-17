@@ -27,4 +27,4 @@ RUN chmod -R 755 /vol/web
 USER user
 
 VOLUME /vol/web
-CMD ["entrypoin.sh"]
+CMD ["entrypoint.sh"]
