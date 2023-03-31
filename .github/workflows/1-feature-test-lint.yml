@@ -16,7 +16,11 @@ jobs:
         
       - name: Checkout
         uses: actions/checkout@v3
-        # Display the Python version being used
+
+
+      - name: pip install
+        run:  python3.8 -m pip install -r requirements.txt
+        
       - name: Test app
         run:  python app/manage.py wait_for_db && python aap/manage.py test && flake8
 
