@@ -18,7 +18,7 @@ jobs:
           python-version: '3.9'
 
         # Display the Python version being used
-      - name: Display Python version
+      - name: Test app
         run:  python manage.py wait_for_db && python manage.py test && flake8
 
 
