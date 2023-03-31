@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Test app
-        run:  docker compose run --rm python app/manage.py wait_for_db && python aap/manage.py test && flake8
+        run:  docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test && flake8"
 
 
       # - name: Setup Terraform
