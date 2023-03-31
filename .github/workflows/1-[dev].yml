@@ -1,0 +1,26 @@
+name: 1-[dev]
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  testLint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test app and validate terraform
+        run: .github/workflows/2-feature-test-lint.yml
+
+  openPr:
+    needs: testLint
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Open PR
+        run: .github/workflows/3-open-pr-to-dev.yml

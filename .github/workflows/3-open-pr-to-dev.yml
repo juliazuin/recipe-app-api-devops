@@ -1,0 +1,17 @@
+name: 3-open-pr-to-dev.yml
+on:
+  workflow_call:
+jobs:
+  createPR:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: update authors
+          title: Create PR 
+          body: Credit new contributors by updating AUTHORS
+          branch: develop
