@@ -1,3 +1,8 @@
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+  
 name: 1-[dev]
 
 on:

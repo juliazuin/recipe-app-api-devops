@@ -1,3 +1,8 @@
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
 name: 2-feature-test-lint
 
 on:
