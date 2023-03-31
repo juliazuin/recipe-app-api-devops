@@ -26,3 +26,5 @@ jobs:
         
       - name: Open PR
         run: ./.github/workflows/3-open-pr-to-dev.yml
+        with:
+          GITHUB_TOKEN: ${GH_TOKEN}
