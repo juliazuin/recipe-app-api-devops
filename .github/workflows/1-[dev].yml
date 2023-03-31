@@ -15,8 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Test app and validate terraform
-        working-directory: .github/workflow/
-        run: 2-feature-test-lint.yml
+        run: ./.github/workflows/2-feature-test-lint.yml
 
   openPr:
     needs: testLint
@@ -26,4 +25,4 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Open PR
-        run: ./workflow/3-open-pr-to-dev.yml
+        run: ./.github/workflows/3-open-pr-to-dev.yml
