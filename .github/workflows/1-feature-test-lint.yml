@@ -8,17 +8,14 @@ on:
 jobs:
   label_issue:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          repository: juliazuin/recipe-app-api-devops
-
+    steps:      
       - name: Set Up Python 
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-
+        
+      - name: Checkout
+        uses: actions/checkout@v3
         # Display the Python version being used
       - name: Test app
         run:  python manage.py wait_for_db && python manage.py test && flake8
