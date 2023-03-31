@@ -1,8 +1,5 @@
-permissions:
-  actions: read
-  contents: read
-  pull-requests: read
-  
+permissions: write-all
+
 name: 3-open-pr-to-dev.yml
 on:
   workflow_call:
