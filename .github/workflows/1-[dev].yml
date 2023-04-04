@@ -11,6 +11,13 @@ jobs:
   testLint:
     runs-on: ubuntu-latest
     steps:
+      - name: Get Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v1
+        with:
+          application_id: ${{ secrets.APPLICATION_ID }}
+          application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
+          
       - name: Test app and validate terraform
         uses: ./.github/workflows/2-feature-test-lint.yml
 
