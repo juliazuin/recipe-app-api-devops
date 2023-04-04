@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - 'develop'
+env:
+  ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
   build:    
