@@ -49,7 +49,9 @@ jobs:
       - uses: peter-evans/create-pull-request@v4
         name: create PR
         with:
-          commit-message: update authors
-          title: Update AUTHORS
-          body: Credit new contributors by updating AUTHORS
-          branch: main
+          commit-message: Cloud - Update available list
+          title: Cloud - Update available list
+          body: Cloud - Update available list
+          base: main
+          labels: automated-pr, Clouds & Regions
+          branch: cloud-update-advanced-params
