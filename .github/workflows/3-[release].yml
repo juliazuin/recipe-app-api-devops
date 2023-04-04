@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - 'release/**'
+env:
+  ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
   releasePlan:

@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - 'release/destroy-**'
+env:
+    ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
   releaseDestroy:

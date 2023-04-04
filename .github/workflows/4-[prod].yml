@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - 'main'
+env:
+  ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
   prodPlan:
