@@ -1,0 +1,57 @@
+permissions: write-all
+
+name: 3-[prod].yml
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  prodPlan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Eport ecr_image varible
+        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+    
+      - name: Terraform Init
+        run: terraform init
+    
+      - name: Terraform set workspace
+        run: terraform workspace select production || terraform workspace new production
+    
+      - name: Terraform plan
+        run: terraform plan
+
+  prodApply:
+    runs-on: ubuntu-latest
+    needs: prodPlan
+    defaults:
+      run:
+        working-directory: ./deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Eport ecr_image varible
+        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+    
+      - name: Terraform Init
+        run: terraform init
+    
+      - name: Terraform set workspace
+        run: terraform workspace select production
+    
+      - name: Terraform apply
+        run: terraform apply --auto-approve

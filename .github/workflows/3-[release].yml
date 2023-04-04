@@ -1,0 +1,57 @@
+permissions: write-all
+
+name: 3-[release].yml
+on:
+  push:
+    branches:
+      - 'release/**'
+
+jobs:
+  releasePlan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Eport ecr_image varible
+        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+    
+      - name: Terraform Init
+        run: terraform init
+    
+      - name: Terraform set workspace
+        run: terraform workspace select release || terraform workspace new release
+    
+      - name: Terraform plan
+        run: terraform plan
+
+  releaseApply:
+    needs: releasePlan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Eport ecr_image varible
+        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+    
+      - name: Terraform Init
+        run: terraform init
+    
+      - name: Terraform set workspace
+        run: terraform workspace select release
+    
+      - name: Terraform apply
+        run: terraform apply --auto-approve
