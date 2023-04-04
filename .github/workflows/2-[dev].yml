@@ -37,7 +37,4 @@ jobs:
 
       - name: Docker push image to Amazon ECR
         run: |
-          echo ${{ env.ECR_REPO }}
-          docker build -t ${{ env.ECR_REPO }}:dev  .
-          docker tag ${{ env.ECR_REPO }}:dev ${{ env.ECR_REPO }}:latest
           docker push ${{ env.ECR_REPO }}:dev
