@@ -48,3 +48,8 @@ jobs:
       
       - uses: peter-evans/create-pull-request@v4
         name: create PR
+        with:
+          commit-message: update authors
+          title: Update AUTHORS
+          body: Credit new contributors by updating AUTHORS
+          branch: release
