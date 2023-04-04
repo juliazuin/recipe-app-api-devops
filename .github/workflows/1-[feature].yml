@@ -1,16 +1,15 @@
-permissions: write-all
+permissions: read-all
 
-name: 2-feature-test-lint
+name: 1-[Feature]
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - 'feature/**'
 
 jobs:
   testApp:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
     steps:      
       - name: Set Up Python 
         uses: actions/setup-python@v2
@@ -25,9 +24,6 @@ jobs:
   
   validateTerraform:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
     steps:
       - name: Checkout
         uses: actions/checkout@v3     
