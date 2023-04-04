@@ -1,0 +1,41 @@
+permissions: read-all
+
+name: 1-[Feature]
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  testApp:
+    runs-on: ubuntu-latest
+    steps:      
+      - name: Set Up Python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+        
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Test app
+        run:  docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test && flake8"
+  
+  validateTerraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+    
+      - name: Terraform Init
+        run: terraform init -backend=false
+
+      - name: Terraform fmt
+        run: terraform fmt -check
+    
+      - name: Terraform validate
+        run: terraform validate
