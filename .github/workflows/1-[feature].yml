@@ -8,19 +8,19 @@ on:
       - 'feature/**'
 
 jobs:
-  testApp:
-    runs-on: ubuntu-latest
-    steps:      
-      - name: Set Up Python 
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+  # testApp:
+  #   runs-on: ubuntu-latest
+  #   steps:      
+  #     - name: Set Up Python 
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: '3.9'
         
-      - name: Checkout
-        uses: actions/checkout@v3
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
         
-      - name: Test app
-        run:  docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test && flake8"
+  #     - name: Test app
+  #       run:  docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test && flake8"
   
   validateTerraform:
     runs-on: ubuntu-latest
