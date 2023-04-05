@@ -33,7 +33,7 @@ jobs:
         run: terraform init
     
       - name: Terraform set workspace
-        run: terraform workspace select release -or-create
+        run: terraform workspace select release || terraform workspace new release
     
       - name: Terraform plan
         run: terraform plan
