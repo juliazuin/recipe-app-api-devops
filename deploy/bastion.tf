@@ -13,6 +13,6 @@ resource "aws_instance" "bastion" {
 
   tags = merge(
     local.common_tags,
-    tomap({"Name": "${local.prefix}-bastion"})
+    tomap({ "Name" : "${local.prefix}-bastion" })
   )
 }
