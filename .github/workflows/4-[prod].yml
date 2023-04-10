@@ -11,6 +11,11 @@ env:
 jobs:
   prodPlan:
     runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: "sa-east-1"
+      AWS_S3_BUCKET: "recipe-app-api-devops-tfstate-juliazuin2"
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     defaults:
       run:
         working-directory: ./deploy
@@ -22,7 +27,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Eport ecr_image varible
-        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+        run: echo "TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev" >> $GITHUB_ENV
     
       - name: Terraform Init
         run: terraform init
@@ -35,6 +40,11 @@ jobs:
 
   prodApply:
     runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: "sa-east-1"
+      AWS_S3_BUCKET: "recipe-app-api-devops-tfstate-juliazuin2"
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     needs: prodPlan
     defaults:
       run:
@@ -47,7 +57,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Eport ecr_image varible
-        run: EXPORT TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev
+        run: echo "TF_VAR_ecr_image_api=${{ env.ECR_REPO }}:dev" >> $GITHUB_ENV
     
       - name: Terraform Init
         run: terraform init
