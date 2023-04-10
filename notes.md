@@ -2,7 +2,7 @@
 Para rodar o docker-compose.yaml é necessario realizar login com o aws vault
 
 ```sh
-aws-vault exec {profile_name}
+winpty aws-vault exec {profile_name} --duration=2h
 ```
 
 Após isso no mesmo terminal digite
