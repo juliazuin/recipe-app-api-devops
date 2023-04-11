@@ -67,3 +67,7 @@ jobs:
     
       - name: Terraform apply
         run: terraform apply --auto-approve
+        env:
+          TF_VAR_db_username: ${{ secrets.TF_VAR_db_username }}
+          TF_VAR_db_password: ${{ secrets.TF_VAR_db_password }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
