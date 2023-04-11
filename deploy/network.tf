@@ -171,7 +171,6 @@ resource "aws_route" "private_internet_access_a" {
   route_table_id         = aws_route_table.private_a.id
   nat_gateway_id         = aws_nat_gateway.public_a.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.main.id
 }
 
 ####################################################
@@ -207,5 +206,4 @@ resource "aws_route" "private_internet_access_b" {
   route_table_id         = aws_route_table.private_b.id
   nat_gateway_id         = aws_nat_gateway.public_b.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.main.id
 }
