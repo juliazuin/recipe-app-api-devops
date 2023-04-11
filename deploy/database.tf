@@ -21,6 +21,11 @@ resource "aws_security_group" "rds" {
     protocol         = "tcp"
     from_port        = 5432
     to_port          = 5432
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    prefix_list_ids  = ["0.0.0.0/0"]
+    security_groups  = ["default"]
+    self             = false
   }]
 
   tags = local.common_tags
@@ -29,7 +34,7 @@ resource "aws_security_group" "rds" {
 
 resource "aws_db_instance" "main" {
   identifier              = "${local.prefix}-db"
-  name                    = "recipe"
+  db_name                    = "recipe"
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "postgres"
@@ -45,6 +50,6 @@ resource "aws_db_instance" "main" {
 
   tags = merge(
     local.common_tags,
-    tomap("Name", "${local.prefix}-main")
+    tomap({ "Name" : "${local.prefix}-main" })
   )
 }
