@@ -24,7 +24,7 @@ resource "aws_security_group" "rds" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
     prefix_list_ids  = ["0.0.0.0/0"]
-    security_groups  = ["sg-04401dbf651527405"]
+    security_groups  = ["sg-0ba4907aaf439aa87"]
     self             = false
   }]
 
