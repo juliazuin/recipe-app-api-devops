@@ -25,15 +25,66 @@ resource "aws_iam_instance_profile" "bastion" {
 }
 
 resource "aws_instance" "bastion" {
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
-  user_data     = file("./templates/bastion/user-data.sh")
+  ami                  = data.aws_ami.amazon_linux.id
+  instance_type        = "t2.micro"
+  user_data            = file("./templates/bastion/user-data.sh")
   iam_instance_profile = aws_iam_instance_profile.bastion.name
-  key_name = var.bastion_key_name
-  subnet_id = aws_subnet.public_a.id
+  key_name             = var.bastion_key_name
+  subnet_id            = aws_subnet.public_a.id
+
+  vpc_security_group_ids = [
+    aws_security_group.bastion.id
+  ]
 
   tags = merge(
     local.common_tags,
     tomap({ "Name" : "${local.prefix}-bastion" })
   )
+}
+
+
+resource "aws_security_group" "bastion" {
+  description = "Control bastion inbound and outbound access"
+  name        = "${local.prefix}-bastion"
+  vpc_id      = aws_vpc.main.id
+
+  ingress = [{
+    protocol         = "tcp"
+    from_port        = 22
+    to_port          = 22
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    prefix_list_ids  = ["0.0.0.0/0"]
+    security_groups  = ["sg-0ba4907aaf439aa87"]
+    self             = false
+    description      = "ingress rule"
+  }]
+
+  egress = [{
+    protocol         = "tcp"
+    from_port        = 80
+    to_port          = 80
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    prefix_list_ids  = ["0.0.0.0/0"]
+    security_groups  = ["sg-0ba4907aaf439aa87"]
+    self             = false
+    description      = "egress rule"
+    },
+    {
+      protocol  = "tcp"
+      from_port = 5432
+      to_port   = 5432
+      cidr_blocks = [
+        aws_subnet.private_a.cidr_block,
+        aws_subnet.private_b.cidr_block
+      ]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = ["0.0.0.0/0"]
+      security_groups  = ["sg-0ba4907aaf439aa87"]
+      self             = false
+      description      = "egress rule"
+  }]
+
+  tags = local.common_tags
 }
