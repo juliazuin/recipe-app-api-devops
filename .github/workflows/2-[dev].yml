@@ -10,7 +10,15 @@ env:
   ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
+  teste:
+    runs-on: ubuntu-latest
+    name: teste
+    steps:
+      - name: teste step
+        run: |
+          echo ${{ github.event }}
   build:    
+    if: ${{ github.event == 'merged' }}
     name: Build Image
     runs-on: ubuntu-latest
   
