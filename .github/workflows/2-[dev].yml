@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ github.event.pull_request.merged }}
+          GITHUB_CONTEXT: ${{ github.event.issue.pull_request }}
         run: echo "$GITHUB_CONTEXT"
   build:    
     if: ${{ github.event == 'merged' }}
