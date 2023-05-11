@@ -3,13 +3,18 @@ permissions: write-all
 name: 3-[release].yml
 on:
   push:
-    branches:
-      - 'release/**'
+  pull_request:
+      types:
+        - closed
+      branches:
+        - 'release/**'
 env:
   ECR_REPO: ${{ vars.ECR_REPO }}
 
 jobs:
   releasePlan:
+    if: github.event.pull_request.merged == true
+    
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: "sa-east-1"
@@ -45,6 +50,8 @@ jobs:
           
 
   releaseApply:
+    if: github.event.pull_request.merged == true
+
     needs: releasePlan
     runs-on: ubuntu-latest
     env:
