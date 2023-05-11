@@ -3,9 +3,12 @@ permissions: read-all
 name: 2-[DEV]
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - 'develop'
+      
 env:
   ECR_REPO: ${{ vars.ECR_REPO }}
 
