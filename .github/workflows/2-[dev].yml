@@ -14,9 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     name: teste
     steps:
-      - name: teste step
-        run: |
-          echo ${{ github.event }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
   build:    
     if: ${{ github.event == 'merged' }}
     name: Build Image
