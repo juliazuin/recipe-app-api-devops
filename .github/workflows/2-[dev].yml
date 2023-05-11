@@ -8,6 +8,7 @@ on:
       - closed
     branches:
       - 'develop'
+
       
 env:
   ECR_REPO: ${{ vars.ECR_REPO }}
