@@ -2,7 +2,6 @@ permissions: write-all
 
 name: 3-[release].yml
 on:
-  push:
   pull_request:
       types:
         - closed
@@ -14,7 +13,7 @@ env:
 jobs:
   releasePlan:
     if: github.event.pull_request.merged == true
-    
+
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: "sa-east-1"
