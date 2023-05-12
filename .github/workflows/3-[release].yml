@@ -1,6 +1,7 @@
 permissions: write-all
 
 name: 3-[release].yml
+
 on:
   pull_request:
       types:
