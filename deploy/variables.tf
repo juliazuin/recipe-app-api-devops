@@ -18,3 +18,21 @@ variable "db_username" {
 variable "db_password" {
   description = "Password for the RDS postgrees instance"
 }
+
+variable "bastion_key_name" {
+  default = "recipe-app-api-devops-bastion"
+}
+
+variable "ecr_image_api" {
+  description = "ECR image for API"
+  default     = "250953485096.dkr.ecr.sa-east-1.amazonaws.com/recipe-app-api-devops:lastest"
+}
+
+variable "ecr_image_proxy" {
+  description = "ECR image for proxy"
+  default     = "250953485096.dkr.ecr.sa-east-1.amazonaws.com/recipe-app-api-proxy:latest"
+}
+
+variable "django_secret_key" {
+  description = "Secret key for django app"
+}
