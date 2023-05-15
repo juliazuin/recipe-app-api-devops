@@ -33,8 +33,19 @@ resource "aws_iam_policy" "task_execution_role_policy" {
 }
 
 resource "aws_iam_role" "task_execution_role" {
-  name               = "${local.prefix}-task-exec-role"
-  assume_role_policy = jsonencode("./templates/ec2/assume-role-policy.json")
+  name = "${local.prefix}-task-exec-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "ecs-tasks.amazonaws.com"
+        },
+        "Effect" : "Allow"
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution_role" {
@@ -44,7 +55,18 @@ resource "aws_iam_role_policy_attachment" "task_execution_role" {
 
 resource "aws_iam_role" "app_iam_role" {
   name               = "${local.prefix}-api-task"
-  assume_role_policy = jsonencode("./templates/ecs/assume-role-policy.json")
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": "sts:AssumeRole",
+        "Principal": {
+          "Service": "ecs-tasks.amazonaws.com"
+        },
+        "Effect": "Allow"
+      }
+    ]
+  })
 
   tags = local.common_tags
 }
@@ -121,11 +143,11 @@ resource "aws_security_group" "ecs_service" {
 }
 
 resource "aws_ecs_service" "api" {
-  name            = "${local.prefix}-api"
-  cluster         = aws_ecs_cluster.main.name
-  task_definition = aws_ecs_task_definition.api.family
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name             = "${local.prefix}-api"
+  cluster          = aws_ecs_cluster.main.name
+  task_definition  = aws_ecs_task_definition.api.family
+  desired_count    = 1
+  launch_type      = "FARGATE"
   platform_version = "1.4.0"
 
   network_configuration {
