@@ -8,8 +8,20 @@ data "aws_ami" "amazon_linux" {
 }
 
 resource "aws_iam_role" "bastion" {
-  name               = "${local.prefix}-bastion"
-  assume_role_policy = jsonencode(".templates/bastion/instance-profile-policy.json")
+  name = "${local.prefix}-bastion"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "ec2.amazonaws.com"
+        },
+        "Effect" : "Allow"
+      }
+    ]
+    }
+  )
 
   tags = local.common_tags
 }
