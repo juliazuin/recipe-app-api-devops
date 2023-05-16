@@ -54,16 +54,16 @@ resource "aws_iam_role_policy_attachment" "task_execution_role" {
 }
 
 resource "aws_iam_role" "app_iam_role" {
-  name               = "${local.prefix}-api-task"
+  name = "${local.prefix}-api-task"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "ecs-tasks.amazonaws.com"
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "ecs-tasks.amazonaws.com"
         },
-        "Effect": "Allow"
+        "Effect" : "Allow"
       }
     ]
   })
