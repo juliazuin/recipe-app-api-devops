@@ -1,6 +1,6 @@
 permissions: write-all
 
-name: 3-[release].yml
+name: 5-[destroy].yml
 on:
   push:
     branches:

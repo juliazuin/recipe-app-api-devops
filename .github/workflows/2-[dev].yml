@@ -1,6 +1,6 @@
 permissions: read-all
 
-name: 2-[DEV]
+name: 2-[dev]
 
 on:
   pull_request:
