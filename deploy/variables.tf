@@ -30,7 +30,7 @@ variable "ecr_image_api" {
 
 variable "ecr_image_proxy" {
   description = "ECR image for proxy"
-  default     = "250953485096.dkr.ecr.sa-east-1.amazonaws.com/recipe-app-api-proxy:latest"
+  default     = "250953485096.dkr.ecr.sa-east-1.amazonaws.com/recipe-app-api-proxy:dev"
 }
 
 variable "django_secret_key" {
