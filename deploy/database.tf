@@ -16,17 +16,13 @@ resource "aws_security_group" "rds" {
   name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
-  ingress = [{
-    description      = "Allow access to the RDS database instance"
-    protocol         = "tcp"
-    from_port        = 5432
-    to_port          = 5432
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    prefix_list_ids  = ["0.0.0.0/0"]
-    security_groups  = [aws_security_group.bastion.id]
-    self             = false
-  }]
+  ingress {
+    description     = "Allow access to the RDS database instance"
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.bastion.id]
+  }
 
   tags = local.common_tags
 }
@@ -46,7 +42,11 @@ resource "aws_db_instance" "main" {
   backup_retention_period = 0
   multi_az                = false
   skip_final_snapshot     = true
-  vpc_security_group_ids  = [aws_security_group.rds.id]
+
+  vpc_security_group_ids = [
+    aws_security_group.rds.id,
+    aws_security_group.ecs_service.id
+  ]
 
   tags = merge(
     local.common_tags,

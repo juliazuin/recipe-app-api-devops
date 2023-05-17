@@ -8,8 +8,20 @@ data "aws_ami" "amazon_linux" {
 }
 
 resource "aws_iam_role" "bastion" {
-  name               = "${local.prefix}-bastion"
-  assume_role_policy = jsonencode(".templates/bastion/instance-profile-policy.json")
+  name = "${local.prefix}-bastion"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "ec2.amazonaws.com"
+        },
+        "Effect" : "Allow"
+      }
+    ]
+    }
+  )
 
   tags = local.common_tags
 }
@@ -48,43 +60,36 @@ resource "aws_security_group" "bastion" {
   name        = "${local.prefix}-bastion"
   vpc_id      = aws_vpc.main.id
 
-  ingress = [{
-    protocol         = "tcp"
-    from_port        = 22
-    to_port          = 22
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    prefix_list_ids  = ["0.0.0.0/0"]
-    security_groups  = ["sg-0ba4907aaf439aa87"]
-    self             = false
-    description      = "ingress rule"
-  }]
+  ingress {
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-  egress = [{
-    protocol         = "tcp"
-    from_port        = 80
-    to_port          = 80
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    prefix_list_ids  = ["0.0.0.0/0"]
-    security_groups  = ["sg-0ba4907aaf439aa87"]
-    self             = false
-    description      = "egress rule"
-    },
-    {
-      protocol  = "tcp"
-      from_port = 5432
-      to_port   = 5432
-      cidr_blocks = [
-        aws_subnet.private_a.cidr_block,
-        aws_subnet.private_b.cidr_block
-      ]
-      ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids  = ["0.0.0.0/0"]
-      security_groups  = ["sg-0ba4907aaf439aa87"]
-      self             = false
-      description      = "egress rule"
-  }]
+  egress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol  = "tcp"
+    from_port = 5432
+    to_port   = 5432
+    cidr_blocks = [
+      aws_subnet.private_a.cidr_block,
+      aws_subnet.private_b.cidr_block
+    ]
+  }
 
   tags = local.common_tags
 }

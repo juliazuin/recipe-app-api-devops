@@ -1,6 +1,6 @@
 permissions: read-all
 
-name: 1-[Feature]
+name: 1-[feature]
 
 on:
   push:
