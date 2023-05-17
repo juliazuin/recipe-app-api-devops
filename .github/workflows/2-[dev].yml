@@ -1,6 +1,6 @@
 permissions: read-all
 
-name: 2-[DEV]
+name: 2-[dev]
 
 on:
   pull_request:
@@ -42,4 +42,4 @@ jobs:
 
       - name: Docker push image to Amazon ECR
         run: |
-          docker push ${{ env.ECR_REPO }}:dev
+          docker push ${{ env.ECR_REPO }}:latest
