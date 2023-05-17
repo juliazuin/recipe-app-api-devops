@@ -42,4 +42,4 @@ jobs:
 
       - name: Docker push image to Amazon ECR
         run: |
-          docker push ${{ env.ECR_REPO }}:dev
+          docker push ${{ env.ECR_REPO }}:latest
