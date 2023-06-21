@@ -34,7 +34,8 @@ resource "aws_iam_policy" "task_execution_role_policy" {
 
 resource "aws_iam_role" "task_execution_role" {
   name               = "${local.prefix}-task-exec-role"
-  assume_role_policy = jsonencode("./templates/ec2/assume-role-policy.json")
+  assume_role_policy = "${file("./templates/ecs/assume-role-policy.json")}"
+  # assume_role_policy = jsonencode("./templates/ec2/assume-role-policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution_role" {
@@ -44,7 +45,8 @@ resource "aws_iam_role_policy_attachment" "task_execution_role" {
 
 resource "aws_iam_role" "app_iam_role" {
   name               = "${local.prefix}-api-task"
-  assume_role_policy = jsonencode("./templates/ecs/assume-role-policy.json")
+  assume_role_policy = "${file("./templates/ecs/assume-role-policy.json")}"
+  # assume_role_policy = jsonencode("./templates/ecs/assume-role-policy.json")
 
   tags = local.common_tags
 }
