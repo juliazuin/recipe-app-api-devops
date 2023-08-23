@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from socket import gethostname, gethostbyname
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'changeme')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get("DEBUG", 0)))
 
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS.extend(
@@ -33,6 +34,12 @@ ALLOWED_HOSTS.extend(
     )
 )
 
+if os.environ.get("AWS_EXECUTION_ENV"):
+    ALLOWED_HOSTS.append(gethostbyname(gethostname()))
+    
+print('------------PRINT ALLOWED_HOSTS---------------------')
+print(str(ALLOWED_HOSTS))
+print('-----------------------------------------------------------')
 
 # Application definition
 
@@ -138,3 +145,12 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
 AUTH_USER_MODEL = 'core.User'
+
+S3_STORAGE_BACKEND = bool(int(os.environ.get('S3_STORAGE_BACKEND', 1)))
+if S3_STORAGE_BACKEND is True:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_DEFAULT_ACL = 'public-read'
+AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('S3_STORAGE_BUCKET_REGION', 'sa-east-1')
+AWS_QUERYSTRING_AUTH = False

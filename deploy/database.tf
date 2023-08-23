@@ -17,11 +17,14 @@ resource "aws_security_group" "rds" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Allow access to the RDS database instance"
-    protocol        = "tcp"
-    from_port       = 5432
-    to_port         = 5432
-    security_groups = [aws_security_group.bastion.id]
+    description = "Allow access to the RDS database instance"
+    protocol    = "tcp"
+    from_port   = 5432
+    to_port     = 5432
+    security_groups = [
+      aws_security_group.bastion.id,
+      aws_security_group.ecs_service.id
+    ]
   }
 
   tags = local.common_tags
@@ -34,8 +37,8 @@ resource "aws_db_instance" "main" {
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "postgres"
-  engine_version          = "11.15"
-  instance_class          = "db.t2.micro"
+  engine_version          = "13.11"
+  instance_class          = "db.t3.micro"
   db_subnet_group_name    = aws_db_subnet_group.main.name
   password                = var.db_password
   username                = var.db_username
