@@ -36,6 +36,10 @@ ALLOWED_HOSTS.extend(
 
 if os.environ.get("AWS_EXECUTION_ENV"):
     ALLOWED_HOSTS.append(gethostbyname(gethostname()))
+    
+print('------------PRINT ALLOWED_HOSTS---------------------')
+print(str(ALLOWED_HOSTS))
+print('-----------------------------------------------------------')
 
 # Application definition
 
