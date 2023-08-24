@@ -27,8 +27,6 @@ jobs:
         run: |
           echo ${{ env.ECR_REPO }}
           docker build -t ${{ env.ECR_REPO }}:${{ github.sha }} .
-          
-          docker push ${{ env.ECR_REPO }}:${{ github.sha }}
 
           docker tag ${{ env.ECR_REPO }}:${{ github.sha }} ${{ env.ECR_REPO }}:latest
           docker push $ECR_REPO:latest
@@ -50,4 +48,5 @@ jobs:
 
       - name: Docker push image to Amazon ECR
         run: |
-          docker push ${{ env.ECR_REPO }}:latest
+        docker push ${{ env.ECR_REPO }}:${{ github.sha }}
+        docker push ${{ env.ECR_REPO }}:latest
