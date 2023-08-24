@@ -26,7 +26,13 @@ jobs:
       - name: Docker Build, tag image to Amazon ECR
         run: |
           echo ${{ env.ECR_REPO }}
-          docker build -t ${{ env.ECR_REPO }}:${{ github.sha }}   .
+          docker build -t ${{ env.ECR_REPO }}:${{ github.sha }} .
+          
+          docker push ${{ env.ECR_REPO }}:${{ github.sha }}
+
+          docker tag ${{ env.ECR_REPO }}:${{ github.sha }} ${{ env.ECR_REPO }}:latest
+          docker push $ECR_REPO:latest
+
           # docker build -t ${{ env.ECR_REPO }}:latest -t ${{ env.ECR_REPO }}:${{ github.sha }} .
 
           # docker tag ${{ env.ECR_REPO }}:${{ github.sha }}  ${{ env.ECR_REPO }}:latest
