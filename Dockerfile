@@ -1,5 +1,5 @@
 FROM python:3.7-alpine
-LABEL maintainer="london app developer"
+LABEL maintainer="London App Developer Ltd"
 
 ENV PYTHONUNBUFFERED 1
 ENV PATH="/scripts:${PATH}"
@@ -25,6 +25,6 @@ RUN adduser -D user
 RUN chown -R user:user /vol/
 RUN chmod -R 755 /vol/web
 USER user
-
 VOLUME /vol/web
+
 CMD ["entrypoint.sh"]
